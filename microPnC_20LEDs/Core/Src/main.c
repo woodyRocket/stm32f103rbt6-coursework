@@ -15,8 +15,9 @@
   *
   ******************************************************************************
   */
-#include "supported_buffer.h"
+#include "buffer_manip.h"
 #include "software_timer.h"
+//#include "button_trigger.h"
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -35,7 +36,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define PD2_RELAY_ENABLE 		PD2
+#define RELAY			 		PD2
 #define LED_SDI 				PC6
 #define LED_OE 					PC5
 #define LED_CLK 				PC3
@@ -69,6 +70,7 @@ static void Data_Out(GPIO_PinState state);
 //uint8_t Get_Bit_Value(uint8_t data, uint8_t index);
 void Led_Display(void);
 void Update_Led_Driver_Buffer(void);
+void Button_Input(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -166,7 +168,7 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 static void Relay_Enable(void){
-	HAL_GPIO_WritePin(PD2_RELAY_ENABLE_GPIO_Port, PD2_RELAY_ENABLE_Pin, RESET);
+	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, RESET);
 }
 static void Latch_Enable(void){
 	HAL_GPIO_WritePin(LED_LE_GPIO_Port, LED_LE_Pin, GPIO_PIN_RESET);
@@ -196,9 +198,7 @@ static void Clock_Off(uint8_t count){
 static void Data_Out(GPIO_PinState state){
 	HAL_GPIO_WritePin(LED_SDI_GPIO_Port, LED_SDI_Pin, state);
 }
-//uint8_t Get_Bit_Value(uint8_t data, uint8_t index){
-//	return (data >> index) & 0x01;
-//}
+
 void Led_Display(void){
 	Latch_Disable();
 	for (uint8_t iter = 0; iter < NUMBER_OF_LED; iter++){
@@ -209,7 +209,15 @@ void Led_Display(void){
 	Latch_Enable();
 }
 void Update_Led_Driver_Buffer(void){
-	//All_Led_Blink(ledDriverBuffer, NUMBER_OF_LED);
+	//Single_Led_Blink(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Red_On(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Green_On(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Red_Blink(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Green_Blink(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//Green_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//Green_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){

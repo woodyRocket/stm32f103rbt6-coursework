@@ -67,8 +67,8 @@ void Error_Handler(void);
 #define PRO_VER_GPIO_Port GPIOB
 #define LED_SDI_Pin GPIO_PIN_6
 #define LED_SDI_GPIO_Port GPIOC
-#define PD2_RELAY_ENABLE_Pin GPIO_PIN_2
-#define PD2_RELAY_ENABLE_GPIO_Port GPIOD
+#define RELAY_Pin GPIO_PIN_2
+#define RELAY_GPIO_Port GPIOD
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -53,7 +53,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(PRO_VER_GPIO_Port, PRO_VER_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(PD2_RELAY_ENABLE_GPIO_Port, PD2_RELAY_ENABLE_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PCPin PCPin PCPin PCPin */
   GPIO_InitStruct.Pin = LED_CLK_Pin|LED_LE_Pin|LED_OE_Pin|LED_SDI_Pin;
@@ -82,11 +82,11 @@ void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = PD2_RELAY_ENABLE_Pin;
+  GPIO_InitStruct.Pin = RELAY_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(PD2_RELAY_ENABLE_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(RELAY_GPIO_Port, &GPIO_InitStruct);
 
 }
 
