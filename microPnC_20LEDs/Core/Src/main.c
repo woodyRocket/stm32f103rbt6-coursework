@@ -36,18 +36,18 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define RELAY			 		PD2
-#define LED_SDI 				PC6
-#define LED_OE 					PC5
-#define LED_CLK 				PC3
-#define LED_LE 					PC4
-#define PRO_VER					PB2
+#define RELAY			 			PD2
+#define LED_SDI 					PC6
+#define LED_OE 						PC5
+#define LED_CLK 					PC3
+#define LED_LE 						PC4
+#define PRO_VER						PB2
 
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define NUMBER_OF_LED			20
+#define NUMBER_OF_LED				20
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/

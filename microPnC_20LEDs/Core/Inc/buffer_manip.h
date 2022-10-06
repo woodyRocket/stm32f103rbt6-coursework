@@ -11,11 +11,11 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define LED_ON 						1
-#define LED_OFF						0
-#define NUMBER_OF_LED_TYPE			2
-#define SPACE_BETWEEN_SAME_LED 		2
-#define NUMBER_OF_LED_STATE			2
+#define LED_ON 									1
+#define LED_OFF									0
+#define NUMBER_OF_LED_TYPE						2
+#define SPACE_BETWEEN_SAME_LED 					2
+#define NUMBER_OF_LED_STATE						2
 
 uint8_t Get_Bit_Value(uint8_t data, uint8_t index);
 uint8_t** Create_Copy_Buffer(uint8_t* buffer, uint8_t size, uint8_t numberCopy);

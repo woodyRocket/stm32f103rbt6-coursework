@@ -7,8 +7,8 @@
 
 #include <buffer_manip.h>
 
-static uint8_t ledRedIndex 		= 0;
-static uint8_t ledGreenIndex 	= 1;
+static uint8_t ledRedIndex 			= 	0;
+static uint8_t ledGreenIndex 		= 	1;
 
 uint8_t Get_Bit_Value(uint8_t data, uint8_t index){
 	return (data >> index) & 0x01;
