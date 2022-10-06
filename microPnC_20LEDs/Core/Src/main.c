@@ -115,11 +115,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer();
+  Set_Timer();
   while (1)
   {
 	  if (timerFlag == 1){
-		  setTimer();
+		  Set_Timer();
 		  Update_Led_Driver_Buffer();
 		  Led_Display();
 	  }
@@ -210,6 +210,7 @@ void Led_Display(void){
 }
 void Update_Led_Driver_Buffer(void){
 	//Single_Led_Blink(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Led_On(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Red_On(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Green_On(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Red_Blink(ledDriverBuffer, NUMBER_OF_LED);
@@ -218,10 +219,15 @@ void Update_Led_Driver_Buffer(void){
 	//Green_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
 	//Green_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
 	//Red_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Backward_Green_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Forward_Green_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Backward_Green_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Forward_Green_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Led_Moving_Middle(ledDriverBuffer,NUMBER_OF_LED);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	timerRun();
+	Timer_Run();
 }
 /* USER CODE END 4 */
 

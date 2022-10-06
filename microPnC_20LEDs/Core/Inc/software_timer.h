@@ -13,8 +13,8 @@
 
 extern int timerFlag;
 
-void setTimer(void);
-void timerRun(void);
+void Set_Timer(void);
+void Timer_Run(void);
 
 
 #endif /* INC_SOFTWARE_TIMER_H_ */

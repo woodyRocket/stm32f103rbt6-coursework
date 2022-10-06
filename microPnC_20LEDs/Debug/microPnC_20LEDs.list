@@ -27,23 +27,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000029  00000000  00000000  0002000c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   000082b6  00000000  00000000  00020035  2**0
+ 12 .debug_info   000082bd  00000000  00000000  00020035  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000017ae  00000000  00000000  000282eb  2**0
+ 13 .debug_abbrev 000017ae  00000000  00000000  000282f2  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  14 .debug_aranges 000009d0  00000000  00000000  00029aa0  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  15 .debug_ranges 000008f8  00000000  00000000  0002a470  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00015ae9  00000000  00000000  0002ad68  2**0
+ 16 .debug_macro  00015c0b  00000000  00000000  0002ad68  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000a088  00000000  00000000  00040851  2**0
+ 17 .debug_line   0000a1d6  00000000  00000000  00040973  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00084087  00000000  00000000  0004a8d9  2**0
+ 18 .debug_str    00086f13  00000000  00000000  0004ab49  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000050  00000000  00000000  000ce960  2**0
+ 19 .comment      00000050  00000000  00000000  000d1a5c  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  0000275c  00000000  00000000  000ce9b0  2**2
+ 20 .debug_frame  0000275c  00000000  00000000  000d1aac  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -295,8 +295,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer();
- 800028a:	f000 f8f9 	bl	8000480 <setTimer>
+  Set_Timer();
+ 800028a:	f000 f8f9 	bl	8000480 <Set_Timer>
   while (1)
   {
 	  if (timerFlag == 1){
@@ -304,8 +304,8 @@ int main(void)
  8000290:	681b      	ldr	r3, [r3, #0]
  8000292:	2b01      	cmp	r3, #1
  8000294:	d1fb      	bne.n	800028e <main+0x26>
-		  setTimer();
- 8000296:	f000 f8f3 	bl	8000480 <setTimer>
+		  Set_Timer();
+ 8000296:	f000 f8f3 	bl	8000480 <Set_Timer>
 		  Update_Led_Driver_Buffer();
  800029a:	f000 f8db 	bl	8000454 <Update_Led_Driver_Buffer>
 		  Led_Display();
@@ -605,11 +605,11 @@ void Led_Display(void){
 void Update_Led_Driver_Buffer(void){
  8000454:	b480      	push	{r7}
  8000456:	af00      	add	r7, sp, #0
-	//All_Green_Blink(ledDriverBuffer, NUMBER_OF_LED);
-	//Red_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
-	//Green_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
-	//Green_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
-	//Red_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Backward_Green_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Forward_Green_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Backward_Green_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Forward_Green_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Led_Moving_Middle(ledDriverBuffer,NUMBER_OF_LED);
 }
  8000458:	bf00      	nop
  800045a:	46bd      	mov	sp, r7
@@ -623,8 +623,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
  8000462:	b082      	sub	sp, #8
  8000464:	af00      	add	r7, sp, #0
  8000466:	6078      	str	r0, [r7, #4]
-	timerRun();
- 8000468:	f000 f81a 	bl	80004a0 <timerRun>
+	Timer_Run();
+ 8000468:	f000 f81a 	bl	80004a0 <Timer_Run>
 }
  800046c:	bf00      	nop
  800046e:	3708      	adds	r7, #8
@@ -656,21 +656,21 @@ __STATIC_FORCEINLINE void __disable_irq(void)
  800047c:	e7fe      	b.n	800047c <Error_Handler+0x8>
 	...
 
-08000480 <setTimer>:
+08000480 <Set_Timer>:
 #include "software_timer.h"
 
 int timerCounter 	= 0;
 int timerFlag 		= 0;
 
-void setTimer(void){
+void Set_Timer(void){
  8000480:	b480      	push	{r7}
  8000482:	af00      	add	r7, sp, #0
 	timerCounter = TIMER_DELAY/TIMER_INTERRUPT;
- 8000484:	4b04      	ldr	r3, [pc, #16]	; (8000498 <setTimer+0x18>)
+ 8000484:	4b04      	ldr	r3, [pc, #16]	; (8000498 <Set_Timer+0x18>)
  8000486:	2232      	movs	r2, #50	; 0x32
  8000488:	601a      	str	r2, [r3, #0]
 	timerFlag 	 = 0;
- 800048a:	4b04      	ldr	r3, [pc, #16]	; (800049c <setTimer+0x1c>)
+ 800048a:	4b04      	ldr	r3, [pc, #16]	; (800049c <Set_Timer+0x1c>)
  800048c:	2200      	movs	r2, #0
  800048e:	601a      	str	r2, [r3, #0]
 }
@@ -681,28 +681,28 @@ void setTimer(void){
  8000498:	2000003c 	.word	0x2000003c
  800049c:	20000040 	.word	0x20000040
 
-080004a0 <timerRun>:
-void timerRun(void){
+080004a0 <Timer_Run>:
+void Timer_Run(void){
  80004a0:	b480      	push	{r7}
  80004a2:	af00      	add	r7, sp, #0
 	if (timerCounter > 0){
- 80004a4:	4b09      	ldr	r3, [pc, #36]	; (80004cc <timerRun+0x2c>)
+ 80004a4:	4b09      	ldr	r3, [pc, #36]	; (80004cc <Timer_Run+0x2c>)
  80004a6:	681b      	ldr	r3, [r3, #0]
  80004a8:	2b00      	cmp	r3, #0
- 80004aa:	dd0b      	ble.n	80004c4 <timerRun+0x24>
+ 80004aa:	dd0b      	ble.n	80004c4 <Timer_Run+0x24>
 		timerCounter--;
- 80004ac:	4b07      	ldr	r3, [pc, #28]	; (80004cc <timerRun+0x2c>)
+ 80004ac:	4b07      	ldr	r3, [pc, #28]	; (80004cc <Timer_Run+0x2c>)
  80004ae:	681b      	ldr	r3, [r3, #0]
  80004b0:	3b01      	subs	r3, #1
- 80004b2:	4a06      	ldr	r2, [pc, #24]	; (80004cc <timerRun+0x2c>)
+ 80004b2:	4a06      	ldr	r2, [pc, #24]	; (80004cc <Timer_Run+0x2c>)
  80004b4:	6013      	str	r3, [r2, #0]
 		if (timerCounter <= 0){
- 80004b6:	4b05      	ldr	r3, [pc, #20]	; (80004cc <timerRun+0x2c>)
+ 80004b6:	4b05      	ldr	r3, [pc, #20]	; (80004cc <Timer_Run+0x2c>)
  80004b8:	681b      	ldr	r3, [r3, #0]
  80004ba:	2b00      	cmp	r3, #0
- 80004bc:	dc02      	bgt.n	80004c4 <timerRun+0x24>
+ 80004bc:	dc02      	bgt.n	80004c4 <Timer_Run+0x24>
 			timerFlag = 1;
- 80004be:	4b04      	ldr	r3, [pc, #16]	; (80004d0 <timerRun+0x30>)
+ 80004be:	4b04      	ldr	r3, [pc, #16]	; (80004d0 <Timer_Run+0x30>)
  80004c0:	2201      	movs	r2, #1
  80004c2:	601a      	str	r2, [r3, #0]
 		}
