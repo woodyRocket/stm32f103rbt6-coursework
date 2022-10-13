@@ -8,7 +8,7 @@
 #ifndef INC_SOFTWARE_TIMER_H_
 #define INC_SOFTWARE_TIMER_H_
 
-#define TIMER_DELAY					500
+#define TIMER_DELAY					50
 #define TIMER_INTERRUPT				10
 
 extern int timerFlag;
