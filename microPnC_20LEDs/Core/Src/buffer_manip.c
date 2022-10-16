@@ -49,6 +49,16 @@ void Rollback_Red_Index (uint8_t size){
 	else
 		ledRedIndex = (ledRedIndex - SPACE_BETWEEN_SAME_LED) % size;
 }
+void Remove_Red_Index(uint8_t* buffer, uint8_t size){
+	for (uint8_t index = 0; index < size; index = index + SPACE_BETWEEN_SAME_LED){
+		buffer[index] = LED_OFF;
+	}
+}
+void Remove_Green_Index(uint8_t* buffer, uint8_t size){
+	for (uint8_t index = 1; index < size; index = index + SPACE_BETWEEN_SAME_LED){
+		buffer[index] = LED_OFF;
+	}
+}
 void Toggle_Led(uint8_t* state){
 	if (*state == LED_ON){
 		*state = LED_OFF;
@@ -166,7 +176,7 @@ uint8_t* Red_Forward_Green_Backward (uint8_t* buffer, uint8_t size){
 	Free_Copy_Buffer(copyBuffer, NUMBER_OF_LED_TYPE);
 	return buffer;
 }
-uint8_t* Red_Backward_Green_Backward (uint8_t* buffer, uint8_t size){
+uint8_t* All_Led_Moving_Backward (uint8_t* buffer, uint8_t size){
 	uint8_t copyIndex;
 	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
 	copyBuffer[0] 	= 	Red_Moving_Backward(copyBuffer[0], size);
@@ -177,7 +187,7 @@ uint8_t* Red_Backward_Green_Backward (uint8_t* buffer, uint8_t size){
 	Free_Copy_Buffer(copyBuffer, NUMBER_OF_LED_TYPE);
 	return buffer;
 }
-uint8_t* Red_Forward_Green_Forward (uint8_t* buffer, uint8_t size){
+uint8_t* All_Led_Moving_Forward (uint8_t* buffer, uint8_t size){
 	uint8_t copyIndex;
 	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
 	copyBuffer[0] 	= 	Red_Moving_Forward(copyBuffer[0], size);
@@ -212,13 +222,17 @@ uint8_t* Green_Moving_Middle(uint8_t* buffer, uint8_t size){
 	Free_Copy_Buffer(copyBuffer, NUMBER_OF_LED_TYPE);
 	return buffer;
 }
+/*
+ * Roll_back() is used to not update the ledRedIndex and ledGreenIndex until the next interrupt
+ * Otherwise, these indexes are updated twice
+ * */
 uint8_t* All_Led_Moving_Middle(uint8_t* buffer, uint8_t size){
 	uint8_t copyIndex;
 	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
-	copyBuffer[0] 	= 	Red_Forward_Green_Forward(copyBuffer[0], size);
+	copyBuffer[0] 	= 	All_Led_Moving_Forward(copyBuffer[0], size);
 	Rollback_Green_Index(size);
 	Rollback_Red_Index(size);
-	copyBuffer[1] 	= 	Red_Backward_Green_Backward(copyBuffer[1], size);
+	copyBuffer[1] 	= 	All_Led_Moving_Backward(copyBuffer[1], size);
 	for (copyIndex = 0; copyIndex < size; copyIndex++){
 		buffer[copyIndex] = copyBuffer[0][copyIndex] | copyBuffer[1][copyIndex];
 	}
@@ -247,11 +261,72 @@ uint8_t* Green_Cummulative_Backward (uint8_t* buffer, uint8_t size){
 	Update_Green_Index(size);
 	return buffer;
 }
+/*
+ * Remove_Green (Red)_Index() is used to erase the led Green(Red) in the buffer
+ * Otherwise, the result always be ON when doing the bitwise operation
+ * */
 uint8_t* Red_Forward_Green_Backward_Cumm(uint8_t* buffer, uint8_t size){
 	uint8_t copyIndex;
 	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
+	Remove_Green_Index(copyBuffer[0], size);
+	Remove_Red_Index(copyBuffer[1], size);
 	copyBuffer[0] 	= 	Red_Cummulative_Forward(copyBuffer[0], size);
 	copyBuffer[1] 	= 	Green_Cummulative_Backward(copyBuffer[1], size);
+
+	for (copyIndex = 0; copyIndex < size; copyIndex++){
+		buffer[copyIndex] = copyBuffer[0][copyIndex] | copyBuffer[1][copyIndex];
+	}
+	Free_Copy_Buffer(copyBuffer, NUMBER_OF_LED_TYPE);
+	return buffer;
+}
+uint8_t* Red_Backward_Green_Forward_Cumm(uint8_t* buffer, uint8_t size){
+	uint8_t copyIndex;
+	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
+	Remove_Green_Index(copyBuffer[0], size);
+	Remove_Red_Index(copyBuffer[1], size);
+	copyBuffer[0] 	= 	Red_Cummulative_Backward(copyBuffer[0], size);
+	copyBuffer[1] 	= 	Green_Cummulative_Forward(copyBuffer[1], size);
+	for (copyIndex = 0; copyIndex < size; copyIndex++){
+		buffer[copyIndex] = copyBuffer[0][copyIndex] | copyBuffer[1][copyIndex];
+	}
+	Free_Copy_Buffer(copyBuffer, NUMBER_OF_LED_TYPE);
+	return buffer;
+}
+uint8_t* All_Led_Cummulative_Forward(uint8_t* buffer, uint8_t size){
+	uint8_t copyIndex;
+	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
+	Remove_Green_Index(copyBuffer[0], size);
+	Remove_Red_Index(copyBuffer[1], size);
+	copyBuffer[0] 	= 	Red_Cummulative_Forward(copyBuffer[0], size);
+	copyBuffer[1] 	= 	Green_Cummulative_Forward(copyBuffer[1], size);
+	for (copyIndex = 0; copyIndex < size; copyIndex++){
+		buffer[copyIndex] = copyBuffer[0][copyIndex] | copyBuffer[1][copyIndex];
+	}
+	Free_Copy_Buffer(copyBuffer, NUMBER_OF_LED_TYPE);
+	return buffer;
+}
+uint8_t* All_Led_Cummulative_Backward(uint8_t* buffer, uint8_t size){
+	uint8_t copyIndex;
+	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
+	Remove_Green_Index(copyBuffer[0], size);
+	Remove_Red_Index(copyBuffer[1], size);
+	copyBuffer[0] 	= 	Red_Cummulative_Backward(copyBuffer[0], size);
+	copyBuffer[1] 	= 	Green_Cummulative_Backward(copyBuffer[1], size);
+	for (copyIndex = 0; copyIndex < size; copyIndex++){
+		buffer[copyIndex] = copyBuffer[0][copyIndex] | copyBuffer[1][copyIndex];
+	}
+	Free_Copy_Buffer(copyBuffer, NUMBER_OF_LED_TYPE);
+	return buffer;
+}
+uint8_t* Half_Mixing_Alternative(uint8_t* buffer, uint8_t size){
+	uint8_t copyIndex;
+	uint8_t** copyBuffer = Create_Copy_Buffer(buffer, size, NUMBER_OF_LED_TYPE);
+	Remove_Green_Index(copyBuffer[0], size);
+	Remove_Red_Index(copyBuffer[1], size);
+	copyBuffer[0] 	= 	All_Led_Cummulative_Backward(copyBuffer[0], size);
+	Rollback_Green_Index(size);
+	Rollback_Red_Index(size);
+	copyBuffer[1] 	= 	All_Led_Cummulative_Forward(copyBuffer[1], size);
 	for (copyIndex = 0; copyIndex < size; copyIndex++){
 		buffer[copyIndex] = copyBuffer[0][copyIndex] | copyBuffer[1][copyIndex];
 	}

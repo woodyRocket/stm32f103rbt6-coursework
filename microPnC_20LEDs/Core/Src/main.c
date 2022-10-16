@@ -221,8 +221,8 @@ void Update_Led_Driver_Buffer(void){
 	//Red_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
 	//Red_Backward_Green_Forward(ledDriverBuffer, NUMBER_OF_LED);
 	//Red_Forward_Green_Backward(ledDriverBuffer, NUMBER_OF_LED);
-	//Red_Backward_Green_Backward(ledDriverBuffer, NUMBER_OF_LED);
-	//Red_Forward_Green_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Led_Moving_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Led_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
 	//Red_Moving_Middle(ledDriverBuffer, NUMBER_OF_LED);
 	//Green_Moving_Middle(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Led_Moving_Middle(ledDriverBuffer,NUMBER_OF_LED);
@@ -230,7 +230,11 @@ void Update_Led_Driver_Buffer(void){
 	//Red_Cummulative_Backward(ledDriverBuffer, NUMBER_OF_LED);
 	//Green_Cummulative_Forward(ledDriverBuffer, NUMBER_OF_LED);
 	//Green_Cummulative_Backward(ledDriverBuffer, NUMBER_OF_LED);
-	Red_Forward_Green_Backward_Cumm(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Forward_Green_Backward_Cumm(ledDriverBuffer, NUMBER_OF_LED);
+	//Red_Backward_Green_Forward_Cumm(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Led_Cummulative_Forward(ledDriverBuffer, NUMBER_OF_LED);
+	//All_Led_Cummulative_Backward(ledDriverBuffer, NUMBER_OF_LED);
+	Half_Mixing_Alternative(ledDriverBuffer, NUMBER_OF_LED);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
