@@ -1,1 +1,8 @@
 ../Core/Src/gpio.c:39:6:MX_GPIO_Init	40	static
+../Core/Src/gpio.c:94:6:Relay_Enable	8	static
+../Core/Src/gpio.c:97:6:Latch_Enable	8	static
+../Core/Src/gpio.c:100:6:Latch_Disable	8	static
+../Core/Src/gpio.c:103:6:Output_Enable	8	static
+../Core/Src/gpio.c:109:6:Clock_On	16	static
+../Core/Src/gpio.c:115:6:Clock_Off	16	static
+../Core/Src/gpio.c:121:6:Data_Out	16	static

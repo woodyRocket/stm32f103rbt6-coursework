@@ -91,5 +91,34 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
-
+void Relay_Enable(void){
+	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, RESET);
+}
+void Latch_Enable(void){
+	HAL_GPIO_WritePin(LED_LE_GPIO_Port, LED_LE_Pin, GPIO_PIN_RESET);
+}
+void Latch_Disable(void){
+	HAL_GPIO_WritePin(LED_LE_GPIO_Port, LED_LE_Pin, GPIO_PIN_SET);
+}
+void Output_Enable(void){
+	HAL_GPIO_WritePin(LED_OE_GPIO_Port, LED_OE_Pin, GPIO_PIN_SET);
+}
+//static void Output_Disable(void){
+//	HAL_GPIO_WritePin(LED_OE_GPIO_Port, LED_OE_Pin, GPIO_PIN_RESET);
+//}
+void Clock_On(uint8_t count){
+	if (count <= 0) return;
+	while (count-- != 0) {
+		HAL_GPIO_WritePin(LED_CLK_GPIO_Port, LED_CLK_Pin, GPIO_PIN_RESET);
+	}
+}
+void Clock_Off(uint8_t count){
+	if (count <= 0) return;
+	while (count-- != 0) {
+		HAL_GPIO_WritePin(LED_CLK_GPIO_Port, LED_CLK_Pin, GPIO_PIN_SET);
+	}
+}
+void Data_Out(GPIO_PinState state){
+	HAL_GPIO_WritePin(LED_SDI_GPIO_Port, LED_SDI_Pin, state);
+}
 /* USER CODE END 2 */

@@ -39,7 +39,18 @@ extern "C" {
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void Relay_Enable(void);
+void Latch_Enable(void);
+void Latch_Disable(void);
+void Output_Enable(void);
+// void Output_Disable(void);
+void Clock_On(uint8_t count);
+void Clock_Off(uint8_t count);
+void Data_Out(GPIO_PinState state);
+//uint8_t Get_Bit_Value(uint8_t data, uint8_t index);
+void Led_Display(void);
+void Update_Led_Driver_Buffer(void);
+void Button_Input(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -59,18 +59,8 @@ static uint8_t ledDriverBuffer[NUMBER_OF_LED] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-static void Relay_Enable(void);
-static void Latch_Enable(void);
-static void Latch_Disable(void);
-static void Output_Enable(void);
-//static void Output_Disable(void);
-static void Clock_On(uint8_t count);
-static void Clock_Off(uint8_t count);
-static void Data_Out(GPIO_PinState state);
-//uint8_t Get_Bit_Value(uint8_t data, uint8_t index);
 void Led_Display(void);
 void Update_Led_Driver_Buffer(void);
-void Button_Input(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -107,8 +97,10 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim4);
   Output_Enable();
   Relay_Enable();
   /* USER CODE END 2 */
@@ -118,7 +110,7 @@ int main(void)
   Set_Timer();
   while (1)
   {
-	  if (timerFlag == 1){
+	  if (Flag_Status() == 1){
 		  Set_Timer();
 		  Update_Led_Driver_Buffer();
 		  Led_Display();
@@ -167,38 +159,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-static void Relay_Enable(void){
-	HAL_GPIO_WritePin(RELAY_GPIO_Port, RELAY_Pin, RESET);
-}
-static void Latch_Enable(void){
-	HAL_GPIO_WritePin(LED_LE_GPIO_Port, LED_LE_Pin, GPIO_PIN_RESET);
-}
-static void Latch_Disable(void){
-	HAL_GPIO_WritePin(LED_LE_GPIO_Port, LED_LE_Pin, GPIO_PIN_SET);
-}
-static void Output_Enable(void){
-	HAL_GPIO_WritePin(LED_OE_GPIO_Port, LED_OE_Pin, GPIO_PIN_SET);
-}
-//static void Output_Disable(void){
-//	HAL_GPIO_WritePin(LED_OE_GPIO_Port, LED_OE_Pin, GPIO_PIN_RESET);
-//}
-static void Clock_On(uint8_t count){
-	if (count <= 0) return;
-	while (count-- != 0) {
-		HAL_GPIO_WritePin(LED_CLK_GPIO_Port, LED_CLK_Pin, GPIO_PIN_RESET);
-	}
-}
-static void Clock_Off(uint8_t count){
-	if (count <= 0) return;
-	while (count-- != 0) {
-		HAL_GPIO_WritePin(LED_CLK_GPIO_Port, LED_CLK_Pin, GPIO_PIN_SET);
-	}
-
-}
-static void Data_Out(GPIO_PinState state){
-	HAL_GPIO_WritePin(LED_SDI_GPIO_Port, LED_SDI_Pin, state);
-}
-
 void Led_Display(void){
 	Latch_Disable();
 	for (uint8_t iter = 0; iter < NUMBER_OF_LED; iter++){
@@ -213,7 +173,7 @@ void Update_Led_Driver_Buffer(void){
 	//All_Led_On(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Red_On(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Green_On(ledDriverBuffer, NUMBER_OF_LED);
-	//All_Red_Blink(ledDriverBuffer, NUMBER_OF_LED);
+	All_Red_Blink(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Green_Blink(ledDriverBuffer, NUMBER_OF_LED);
 	//Red_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
 	//Green_Moving_Forward(ledDriverBuffer, NUMBER_OF_LED);
@@ -234,11 +194,14 @@ void Update_Led_Driver_Buffer(void){
 	//Red_Backward_Green_Forward_Cumm(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Led_Cummulative_Forward(ledDriverBuffer, NUMBER_OF_LED);
 	//All_Led_Cummulative_Backward(ledDriverBuffer, NUMBER_OF_LED);
-	Half_Mixing_Alternative(ledDriverBuffer, NUMBER_OF_LED);
+	//Half_Mixing_Alternative(ledDriverBuffer, NUMBER_OF_LED);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-	Timer_Run();
+	if(htim->Instance == TIM2){
+		Timer_Run();
+	}
+	if(htim->Instance == TIM4){}
 }
 /* USER CODE END 4 */
 
